@@ -1,5 +1,5 @@
 # Background  
-This will be where I take notes for the `Introduction to Statistical Learning` book. I will mainly be using this as a place to put my code for the practice problems, however I hope to also take some legimiate notes that I can use in the future for access,. 
+This will be where I take notes for the `Introduction to Statistical Learning` book. I will mainly be using this as a place to put my code for the practice problems, however I hope to also take some legimiate notes that I can use in the future for access. 
 
 I also hope to evetually delve into `Elements of Statistical Learning`, however I need a bit of a review of linear algebra for that one to be solid.   
 

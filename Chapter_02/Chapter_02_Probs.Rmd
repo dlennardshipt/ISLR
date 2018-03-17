@@ -1,0 +1,30 @@
+---
+title: "Chapter_02_Probs"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+This is where I'll put answers to solutions for problems in Chapter 02. Note: 
+I won't complete all problems, just those that will help with review.  
+
+## Prob 1  
+
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
