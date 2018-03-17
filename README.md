@@ -8,7 +8,7 @@ I also hope to evetually delve into `Elements of Statistical Learning`, however 
 I'm hoping that I can do at least one chapter of reading per week including exercises. Exercises and labs will be done in an Rmarkdwon folder. If extra time or interest, I may delve into some Shipt stuff as well, but I'll have to exclude that from the repository since that's sensitive stuff.  
 
 ## Extra Mile  
-* Do exercises using Python code since predominantly a python user at home.  
+* Do exercises using Python code since predominantly a python user at work. 
 
 
 ## I'll update as I go  
