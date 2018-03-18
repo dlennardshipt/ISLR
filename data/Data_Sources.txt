@@ -1,0 +1,5 @@
+Data Sources  
+http://www-bcf.usc.edu/~gareth/ISL/data.html 
+
+Advertising.csv 
+"http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv"
