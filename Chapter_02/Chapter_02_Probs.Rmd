@@ -5,6 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
 ```
 
 ## Intro
@@ -36,11 +37,23 @@ TBD
 
 ```{r Problem_8}
 # part a
-# college <- read.csv("../data/College.csv")
-# or a slower but cleaner on your hard drive version is 
 college <- read.csv("http://www-bcf.usc.edu/~gareth/ISL/College.csv")
 
 # part b (only works with quartz installed)
+# set rownames
 rownames(college)=college[,1]
+college=college[,-1]
+# fix(college)
+
+# part c
+## part i
+summary(college)
+## part ii
+pairs(college)
+## part ii (using ggplot2 instead)
+ggplot(college,aes(x=Private,Outstate))+geom_boxplot()
+## part iii
+
+
 ```
 
