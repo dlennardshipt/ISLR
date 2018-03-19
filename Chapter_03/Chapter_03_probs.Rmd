@@ -10,7 +10,8 @@ library(ggplot2)
 library(tidyr)
 # load advertising data 
 df <- read.csv("http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv")
-df_long <- df %>% gather(key='source', value='spend', c("TV", 'radio', 'newspaper'))
+df_long <- df %>% gather(key='source', value='spend', 
+                         c("TV", 'radio', 'newspaper'))
 
 #Is there a relationship between advertising budget and sales?
 ggplot(aes(x=spend, y=sales), data=df_long)+
@@ -26,7 +27,14 @@ for (i in unique_fields[1:3]){
 }
 print(cor_list)
 # strong correlation between TV and decent with radio, weak linear cor 
-# between newspaper budget and sales.  
+# between newspaper budget and sales. 
+
+
+# simple linear regression  
+summary(lm(sales ~ TV,data=df))
+ggplot(aes(x=TV, y=sales), data=df)+
+  geom_point()+
+  geom_smooth(method='lm',formula=y~x)
 
 ```
 
