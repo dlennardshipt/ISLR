@@ -1,0 +1,59 @@
+---
+title: "Chapter_02_Probs"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+```
+
+## Intro
+
+This is where I'll put answers to solutions for problems in Chapter 02. Note: 
+I won't complete all problems, just those that will help with review.  
+
+### Prob 1  
+For each of parts (a) through (d), indicate whether we would generally expect the performance of a flexible statistical learning method to be better or worse than an inflexible method. Justify your answer.  
+a)  The sample size n is extremely large, and the number of predictors p is small.  
+In this case: we would expect a flexible model to be better. Since there's not many predictors, and we have a bunch of data, we have enough to get a good idea of fit without looking for patterns (that may not exist) amongst too many data points.   
+
+
+b) The number of predictors p is extremely large, and the number of observations n is small.   
+In this case we'd want a less flexible model. Since we're including a bunch of different predictors, but don't have much data on those predictors, we need to enforce structure onto our model so that we do not overfit to the little data that we have. A flexible model doesn't have enough information to fit correctly.   
+
+c) The relationship between the predictors and response is highly non-linear.  
+Flexible model generally helps here for the necessity of fit. If you're using a biased model (linear regression) that you know is incorrectly biased against the expected fit of data, it's useless before you even fit it. 
+
+d) The variance of the error terms, i.e. $\sigma^2 = Var(\epsilon)$, is extremely high.  
+In this case, because there is so much variation in the error terms, a flexible model will likely overfit the training set too much. Thus a more rigid model would be best here to avoid overfitting as best as possible.  
+
+## Problem 3  
+TBD  
+
+
+## Problem 8 (Applied Problems)  
+
+
+```{r Problem_8}
+# part a
+college <- read.csv("http://www-bcf.usc.edu/~gareth/ISL/College.csv")
+
+# part b (only works with quartz installed)
+# set rownames
+rownames(college)=college[,1]
+college=college[,-1]
+# fix(college)
+
+# part c
+## part i
+summary(college)
+## part ii
+pairs(college)
+## part ii (using ggplot2 instead)
+ggplot(college,aes(x=Private,Outstate))+geom_boxplot()
+## part iii
+
+
+```
+
