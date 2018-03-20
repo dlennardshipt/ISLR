@@ -36,6 +36,13 @@ ggplot(aes(x=TV, y=sales), data=df)+
   geom_point()+
   geom_smooth(method='lm',formula=y~x)
 
+
+# multiple linear regression  
+summary(lm(sales ~ TV + radio + newspaper,data=df))
+
+# multiple regression model without the newspaper var
+summary(lm(sales ~ TV + radio,data=df))
+
 ```
 
 
