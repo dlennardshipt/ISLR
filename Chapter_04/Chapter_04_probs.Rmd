@@ -1,0 +1,28 @@
+---
+title: "Chapter_04_probs"
+output: html_notebook
+---
+
+### Lab Section  
+```{R logistic_regression_trial_w_default}
+library(ISLR)
+library(ggplot2)
+library(tidyr)
+
+names(Smarket)
+dim(Smarket)
+summary(Smarket)
+pairs(Smarket)
+#labs
+
+# correlation matrix
+cor(Smarket[, -9]) # excludes direction variable
+plot(Smarket$Volume)
+
+
+# binomial 
+glm.fit=glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume , 
+            data=Smarket ,family=binomial)
+summary(glm.fit)
+coef(glm.fit)
+```

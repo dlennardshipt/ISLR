@@ -43,6 +43,30 @@ summary(lm(sales ~ TV + radio + newspaper,data=df))
 # multiple regression model without the newspaper var
 summary(lm(sales ~ TV + radio,data=df))
 
+
+# This is an example of quantitative predictors  
+summary(lm(Balance ~ Gender, data=Credit))
+
+# low collinearity
+ggplot(aes(x=Limit, y=Age), data=Credit)+
+  geom_point()
+cor.test(Credit$Limit, Credit$Age)
+
+# multicollinearity
+ggplot(aes(x=Limit, y=Rating), data=Credit)+
+  geom_point()
+cor.test(Credit$Limit, Credit$Rating)
+
+
+# 3.6 
+lm.fit=lm(medv~lstat, data=Boston)
+summary(lm.fit)
+names(lm.fit)
+coef(lm.fit)
+confint(lm.fit)
+predict(lm.fit,data.frame(lstat=(c(5,10,15))), interval="confidence")
+plot(Boston$lstat, Boston$medv)
+abline(lm.fit, col='red')
 ```
 
 
