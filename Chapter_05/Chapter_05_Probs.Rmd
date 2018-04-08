@@ -1,0 +1,19 @@
+---
+title: "Chapter_05_Probs"
+author: "Dylan Lennard"
+date: "4/7/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r lab}
+
+
+
+```
+
+
