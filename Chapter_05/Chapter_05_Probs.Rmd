@@ -11,9 +11,127 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r lab}
+### 5.31: Validation Set Approach
+library(ISLR)
+set.seed (1)
+train=sample(392,196)
+lm.fit=lm(mpg~horsepower ,data=Auto,subset=train)
+attach(Auto)
+# MSE (calculation here is  mean(y-yhat^2) for test observations)
+mean((mpg-predict(lm.fit,Auto))[-train]^2) # 26.14
 
 
+# try now fitting it with 2 and 3 degree polynomial
+lm.fit2=lm(mpg~poly(horsepower, 2),data=Auto,subset=train)
+mean((mpg-predict(lm.fit2,Auto))[-train]^2)  # 19.82
+lm.fit3=lm(mpg~poly(horsepower, 3),data=Auto,subset=train)
+mean((mpg-predict(lm.fit3,Auto))[-train]^2)  # 19.78
+# the MSE is lower for the latter two
 
+# let's now show that if we pick a different sample, we'll get diff MSE
+set.seed (2)
+train=sample(392,196)
+
+lm.fit=lm(mpg~horsepower ,data=Auto,subset=train)
+mean((mpg-predict(lm.fit,Auto))[-train]^2) # 23.30
+lm.fit2=lm(mpg~poly(horsepower, 2),data=Auto,subset=train)
+mean((mpg-predict(lm.fit2,Auto))[-train]^2) # 18.9
+lm.fit3=lm(mpg~poly(horsepower, 3),data=Auto,subset=train)
+mean((mpg-predict(lm.fit3,Auto))[-train]^2) # 19.26
+
+### LOOCV
+library(boot) # need for cv
+
+# both of the below have the same output
+# glm assumes linear model as default (family='binomial' changes this)
+lm.fit=lm(mpg~horsepower, data=Auto)
+coef(lm.fit)
+glm.fit=glm(mpg~horsepower, data=Auto)
+coef(glm.fit)
+
+# glm can use glm.cv, so let's use glm instead of lm
+cv.err=cv.glm(Auto,glm.fit)
+cv.err$delta # see definition, but error here is MSE 
+
+# automate this process and try out different polynomials
+# this will probably take a few seconds
+cv.error=rep(0,5)
+for (i in 1:5){
+  print (i)
+  glm.fit=glm(mpg~poly(horsepower ,i),data=Auto)
+  cv.error[i]=cv.glm(Auto,glm.fit)$delta[1]
+}
+cv.error
+# large drop between linear and quadratic terms, but nothing clear
+# cut after that point.
+# Let's move on to k fold
+
+
+### K fold Cross Validation  
+set.seed(17)
+cv.error.10=rep(0,10)
+for (i in 1:10){
+  glm.fit=glm(mpg~poly(horsepower ,i),data=Auto)
+  # notice K=10 below since we're doing kfold
+  cv.error.10[i]=cv.glm(Auto, glm.fit, K=10)$delta[1]
+}
+cv.error.10
+# computation time was muuuuch faster here
+# still no real evidence that any polynomial higher than 
+# two is really useful  
+
+
+### Bootstrapping 
+# Let's revisit the Alpha example from earlier. 
+# First let's make a function to calculate raw alpha
+alpha.fn=function(data,index){
+  X=data$X[index]
+  Y=data$Y[index]
+
+  return((var(Y)-cov(X,Y))/(var(X)+var(Y)-2*cov(X,Y))) 
+}
+
+# use portfolia dataset for example
+alpha.fn(Portfolio, 1:100)
+
+# now randomly select 100 observations from the data WITH replacement
+set.seed(1)
+alpha.fn(Portfolio, sample(100, 100, replace=T))
+boot(Portfolio ,alpha.fn,R=1000)
+
+# estimating SE for beta 0 and beta 1 with bootstrapping
+boot.fn=function(data,index) 
+  return(coef(lm(mpg~horsepower , data=data,subset=index)))
+
+# now let's do a quick sample
+boot.fn(Auto ,1:392)
+
+# here's a sample of taking multiple samples of the linear model
+set.seed (1)
+boot.fn(Auto,sample(392,392,replace=T))
+boot.fn(Auto,sample(392,392,replace=T))
+
+# now use the boot function to actually compute 
+#standard errors using bootstrapping
+boot(Auto ,boot.fn ,1000)
+# for reference, see original: 
+summary(lm(mpg~horsepower , data=Auto))
+
+# the difference in Standard Errors likely comes from the fact that the SE
+# calculations include assumptions for the linear model, whereas the 
+# bootstrap SE calculations do not include these assumptions. 
+# the assumptions are likely violated in our linear model, so let's
+# see what happens if we do a quadratic model instead. 
+boot.fn=function(data,index){ 
+  coefficients(lm(mpg~horsepower+I(horsepower^2),
+                  data=data,subset=index))
+}
+set.seed (1)
+boot(Auto ,boot.fn , 1000)
+
+# compare
+summary(lm(mpg~horsepower+I(horsepower^2),data=Auto))$coef
+# much closer in the quadratic model
 ```
 
 

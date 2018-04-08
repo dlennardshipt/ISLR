@@ -14,5 +14,4 @@ I'm hoping that I can do at least one chapter of reading per week including exer
 ## I'll update as I go  
 
 ## Book Website: 
-www.StatLearning.com  
-TODO: Math Notation (latex practice)  
+www.StatLearning.com
