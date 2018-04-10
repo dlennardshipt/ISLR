@@ -45,8 +45,10 @@ train = Smarket$Year < 2005
 Smarket.2005= Smarket[!train ,]
 dim(Smarket.2005)
 head(Smarket.2005)
+Direction.2005=Smarket$Direction[!train]
 
-glm.fit=glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume , data=Smarket ,family=binomial,subset=train)
+glm.fit=glm(Direction~Lag1+Lag2+Lag3+Lag4+Lag5+Volume , data=Smarket, 
+            family=binomial,subset=train)
 glm.probs=predict(glm.fit,Smarket.2005,type="response")
 glm.pred=rep("Down",252)
 glm.pred[glm.probs >.5]="Up"
@@ -88,6 +90,38 @@ sum(lda.pred$posterior[,1]<.5)
 
 # could always do a different threshold than 0.5
 sum(lda.pred$posterior[,1]>.9) # No days in 2005 meet that threshold!
+
+
+
+#### QDA
+qda.fit=qda(Direction~Lag1+Lag2,data=Smarket ,subset=train)
+qda.fit
+qda.class=predict(qda.fit,Smarket.2005)$class
+table(qda.class ,Direction.2005)
+mean(qda.class==Direction.2005) # 0.599
+# this did decent compared to our previous model, 60% is pretty good
+# for stock market data
+
+
+### KNN
+library(class) # this is where knn is at
+train.X = cbind(Smarket$Lag1 ,Smarket$Lag2)[train ,]
+test.X = cbind(Smarket$Lag1, Smarket$Lag2)[!train,]
+train.Direction = Smarket$Direction[train]
+
+# set seed for tie breaking randomness introduced by this algorithm
+set.seed(1)
+knn.pred=knn(train.X, test.X, train.Direction, k=1)
+table(knn.pred,Direction.2005)
+(83+43) / 252
+
+
+# let's try with k=3 instead
+knn.pred=knn(train.X, test.X, train.Direction, k=3)
+mean(knn.pred==Direction.2005) # a little better
+
+
+
 
 
 ```
